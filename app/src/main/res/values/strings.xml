@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BuildingAreaFinder</string>
+    <string name="title_activity_maps">BuildingAreaFinder</string>
+    <string name="custom_marker_remove">Remove</string>
+    <string name="distance">Distance</string>
+    <string name="hybridmenu">Hybrid map</string>
+    <string name="normalmenu">Normal map</string>
+    <string name="satellitemenu">Satellite map</string>
+    <string name="terrainmenu">Terrain map</string>
+    <string name="removemenu">Remove all</string>
+</resources>

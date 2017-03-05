@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.nobodyme.myapplication.MainActivity">
+    <item
+        android:id="@+id/maptypeHYBRID"
+        android:orderInCategory="100"
+        android:title="@string/hybridmenu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/maptypeNORMAL"
+        android:orderInCategory="100"
+        android:title="@string/normalmenu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/maptypeSATELLITE"
+        android:orderInCategory="100"
+        android:title="@string/satellitemenu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/maptypeTERRAIN"
+        android:orderInCategory="100"
+        android:title="@string/terrainmenu"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/removeall"
+        android:orderInCategory="100"
+        android:title="@string/removemenu"
+        app:showAsAction="never" />
+</menu>
