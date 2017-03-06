@@ -1,4 +1,4 @@
-# buildingareafinder
+# Building Area Finder
 This is an Android app that helps an user to select buildings or other land areas using markers and then gives the user the coordinates and the area of the selected building along with the distance between each of the markers.
 
 # Installing
