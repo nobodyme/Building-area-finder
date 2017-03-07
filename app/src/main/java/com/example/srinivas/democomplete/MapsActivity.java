@@ -55,7 +55,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        
+        //Obtain autocomplete fragment for place suggestion in google maps 
          autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -81,17 +82,16 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         //setting up custom info window adapter to map
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        
+        
+      //listener code to move to the place when one is selected from the fragment
+       autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                //Log.i("Maps Activity", "Place: ");
-
-//                Marker markerinvisible= mMap.addMarker(new MarkerOptions()
-//                .position(place.getLatLng())
-//                .visible(true));
+                // get latitude of the selected place
                 LatLng latlngdummy = place.getLatLng();
+                //move camera position with animation to the chosen place
                 mMap.animateCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(latlngdummy.latitude,latlngdummy.longitude) , 19.0f) );
             }
 
