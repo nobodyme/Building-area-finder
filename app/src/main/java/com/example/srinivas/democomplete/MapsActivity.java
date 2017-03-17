@@ -2,10 +2,8 @@ package com.example.srinivas.democomplete;
 
 import android.graphics.Color;
 import android.location.Location;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,9 +53,9 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        
+
         //Obtain autocomplete fragment for place suggestion in google maps 
-         autocompleteFragment = (PlaceAutocompleteFragment)
+        autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
     }
@@ -82,23 +80,22 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         //setting up custom info window adapter to map
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
-        
-        
-      //listener code to move to the place when one is selected from the fragment
-       autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+
+
+        //listener code to move to the place when one is selected from the fragment
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
+
                 // get latitude of the selected place
                 LatLng latlngdummy = place.getLatLng();
                 //move camera position with animation to the chosen place
-                mMap.animateCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(latlngdummy.latitude,latlngdummy.longitude) , 19.0f) );
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latlngdummy.latitude, latlngdummy.longitude), 19.0f));
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
-                //Log.i("Maps activity", "An error occurred: " + status);
+                Toast.makeText(MapsActivity.this, "Unknown error occured, try again later", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -205,58 +202,6 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     }
 
-    public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-
-        private View view;
-
-        //to display distance from other markers
-        private String distance_no;
-
-        //to display snippet from original adpater
-        private String custom_snippet;
-
-
-        public CustomInfoWindowAdapter() {
-
-            view = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-
-
-            return null;
-        }
-
-
-        @Override
-        public View getInfoWindow(final Marker marker) {
-
-            distance_no = marker.getTitle();
-            custom_snippet = marker.getSnippet();
-
-            //set titles and snippet from original infowindow
-            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-            subtitle.setText(distance_no);
-
-
-            TextView snippet = (TextView) view.findViewById(R.id.snippet);
-            snippet.setText(custom_snippet);
-
-
-            return view;
-        }
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -302,6 +247,59 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         }
         return super.onOptionsItemSelected(item);
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+
+    public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        private View view;
+
+        //to display distance from other markers
+        private String distance_no;
+
+        //to display snippet from original adpater
+        private String custom_snippet;
+
+
+        public CustomInfoWindowAdapter() {
+
+            view = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+
+            return null;
+        }
+
+
+        @Override
+        public View getInfoWindow(final Marker marker) {
+
+            distance_no = marker.getTitle();
+            custom_snippet = marker.getSnippet();
+
+            //set titles and snippet from original infowindow
+            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+            subtitle.setText(distance_no);
+
+
+            TextView snippet = (TextView) view.findViewById(R.id.snippet);
+            snippet.setText(custom_snippet);
+
+
+            return view;
+        }
 
     }
 }
