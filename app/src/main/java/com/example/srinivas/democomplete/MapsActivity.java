@@ -1,5 +1,6 @@
 package com.example.srinivas.democomplete;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private Marker marker0;
     private Button autoCompleteButton;
+    private Button solarpanelButton;
 
     //j keeps count of the number of the markers
     static int j = -1;
@@ -196,6 +198,16 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 marker.remove();
 
                 --j;
+            }
+        });
+
+        //move to solar activity for calculations
+        solarpanelButton = (Button)findViewById(R.id.bsolarpanel);
+        solarpanelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this,SolarActivity.class);
+                startActivity(intent);
             }
         });
 
