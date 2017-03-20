@@ -26,6 +26,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import static com.google.maps.android.SphericalUtil.computeArea;
@@ -173,11 +175,13 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
                     marker0.setTitle(String.valueOf(distanceArray[j]));
 
-                    computedArea = computeArea(coodlist);
+                    //converting square meter to square foot and rounding it off to 2 decimal places
+                    //converting factor = 10.7639
+                    computedArea = round(computeArea(coodlist)*10.7639,2);
 
 
                     if (autoCompleteButton.getText().equals("Auto Complete")) {
-                        autoCompleteButton.setText("Area = " + computedArea);
+                        autoCompleteButton.setText(""+computedArea);
                     } else {
                         autoCompleteButton.setText("Auto Complete");
                     }
@@ -206,7 +210,10 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         solarpanelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
                 Intent intent = new Intent(MapsActivity.this,SolarActivity.class);
+                bundle.putDouble("computedarea",computedArea);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -268,6 +275,16 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
+    }
+
+
+    // simple class for perfect rounding of computed area
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 
