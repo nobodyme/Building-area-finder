@@ -133,7 +133,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     //calculate distance between current point and previous point
                     Location.distanceBetween((coodlist.get(j - 1)).latitude, (coodlist.get(j - 1)).longitude, (coodlist.get(j)).latitude, (coodlist.get(j)).longitude, dis);
                     //keep distance in distance array
-                    distanceArray[j] = dis[0];
+                    distanceArray[j] = round(dis[0],2);
 
                     marker.setTitle(String.valueOf(distanceArray[j]));
 
