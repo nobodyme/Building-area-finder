@@ -1,29 +1,56 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/maplinear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/AppTheme">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/place_autocomplete_fragment"
-            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
 
-        <fragment xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.example.srinivas.democomplete.MapsActivity" />
 
-    </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <fragment
+                    android:id="@+id/place_autocomplete_fragment"
+                    android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <fragment xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context="com.example.srinivas.democomplete.MapsActivity" />
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_dialog_email"
+
+                />
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,7 +75,7 @@
                 android:visibility="visible" />
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="match_parent"
                 android:background="#ffffff" />
 
@@ -61,6 +88,7 @@
                 android:text="Add solar panels"
                 android:textColor="#ffffff" />
         </LinearLayout>
+
 
     </RelativeLayout>
 
