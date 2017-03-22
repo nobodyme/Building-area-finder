@@ -22,6 +22,6 @@ public class SolarActivity extends AppCompatActivity {
 
         obtainedareatv =(TextView)findViewById(R.id.getareatextview);
 
-        obtainedareatv.setText(area.toString());
+        obtainedareatv.setText(area.toString()+" m^2");
     }
 }

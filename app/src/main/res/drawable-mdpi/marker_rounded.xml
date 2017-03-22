@@ -3,7 +3,7 @@
     <solid android:color="@color/backgroundMarker" />
     <stroke
         android:width="5dip"
-        android:color="#FFFFFF">
+        android:color="@color/backgroundMarker">
     </stroke>
 
     <corners android:radius="10dip" />

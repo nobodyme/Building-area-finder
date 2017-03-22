@@ -116,7 +116,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                         .position(latLng)
                         .visible(true)
                         .draggable(true)
-                        .title(String.valueOf(distanceArray[j]))
+                        .title(String.valueOf(distanceArray[j])+" m")
                         .snippet("Marker " + (j + 1)));
                 if (j == 0)
                     marker0 = marker;
@@ -170,7 +170,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
                     Location.distanceBetween((coodlist.get(0)).latitude, (coodlist.get(0)).longitude, (coodlist.get(j)).latitude, (coodlist.get(j)).longitude, dis);
 
-                    distanceArray[j] = dis[0];
+                    distanceArray[j] = round(dis[0],2);
                     //Toast.makeText(MapsActivity.this,""+dis[0],Toast.LENGTH_SHORT).show();
 
                     marker0.setTitle(String.valueOf(distanceArray[j]));
@@ -181,7 +181,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
 
                     if (autoCompleteButton.getText().equals("Auto Complete")) {
-                        autoCompleteButton.setText(""+computedArea);
+                        autoCompleteButton.setText(computedArea+" m^2");
                     } else {
                         autoCompleteButton.setText("Auto Complete");
                     }

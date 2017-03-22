@@ -37,17 +37,29 @@
 
             </LinearLayout>
 
-
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
+                android:id="@+id/fabadd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="43dp"
+                android:background="#ffffff"
                 android:clickable="true"
-                app:srcCompat="@android:drawable/ic_dialog_email"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_action_add" />
 
-                />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabminus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="110dp"
+                android:background="#ffffff"
+                android:clickable="true"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_action_minus" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 
