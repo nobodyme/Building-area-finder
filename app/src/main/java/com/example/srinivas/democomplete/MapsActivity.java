@@ -1,9 +1,11 @@
 package com.example.srinivas.democomplete;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
+import static android.support.design.widget.FloatingActionButton.SIZE_MINI;
+import static android.support.design.widget.FloatingActionButton.SIZE_NORMAL;
 import static com.google.maps.android.SphericalUtil.computeArea;
 
 public class MapsActivity extends ActionBarActivity implements OnMapReadyCallback {
@@ -48,6 +52,12 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     private double computedArea;
     private float[] dis = new float[1];
     private PlaceAutocompleteFragment autocompleteFragment;
+    private static int initial_marker_value = 0;
+    private FloatingActionButton addareafab;
+    private FloatingActionButton minusareafab;
+    private int arraylistsize1 = 0;
+    private int arraylistsize2 = 2;
+    private boolean areacalcflag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +74,6 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -74,6 +83,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -83,7 +93,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         autoCompleteButton = (Button) findViewById(R.id.autoComplete);
 
         //setting up custom info window adapter to map
-        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getApplicationContext()));
 
 
         //listener code to move to the place when one is selected from the fragment
@@ -104,10 +114,97 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         });
 
 
+        //addareafab
+
+        addareafab = (FloatingActionButton) findViewById(R.id.fabadd);
+        addareafab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (areacalcflag = false)
+                    Toast.makeText(MapsActivity.this, "First calculate area to add", Toast.LENGTH_SHORT).show();
+
+                else {
+
+                    if (!autoCompleteButton.getText().equals("Auto Complete")) {
+                        autoCompleteButton.setText("Auto Complete");
+                    }
+
+
+                    if (minusareafab.getSize() == minusareafab.SIZE_NORMAL)
+                        Toast.makeText(MapsActivity.this, "Minus Area is active now", Toast.LENGTH_SHORT).show();
+                    else if (addareafab.getSize() == addareafab.SIZE_MINI) {
+
+                        arraylistsize1 = j;
+
+                        addareafab.setSize(SIZE_NORMAL);
+
+
+                        initial_marker_value = j + 1;
+                    } else if (addareafab.getSize() == addareafab.SIZE_NORMAL) {
+
+                        arraylistsize2 = j;
+                        if (arraylistsize1 == arraylistsize2)
+                            addareafab.setSize(SIZE_MINI);
+                        else
+                            Toast.makeText(MapsActivity.this, "Add area is progress, delete items to cancel", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                }
+
+            }
+        });
+
+
+        //minusareafab
+
+        minusareafab = (FloatingActionButton) findViewById(R.id.fabminus);
+        minusareafab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (j== -1)
+                    Toast.makeText(MapsActivity.this, "First calculate area to add", Toast.LENGTH_SHORT).show();
+
+                else {
+
+                    if (!autoCompleteButton.getText().equals("Auto Complete")) {
+                        autoCompleteButton.setText("Auto Complete");
+                    }
+
+                    if (addareafab.getSize() == addareafab.SIZE_NORMAL)
+                        Toast.makeText(MapsActivity.this, "Add Area is active now", Toast.LENGTH_SHORT).show();
+                    else if (minusareafab.getSize() == minusareafab.SIZE_MINI) {
+
+
+                        arraylistsize1 = j;
+
+                        minusareafab.setSize(SIZE_NORMAL);
+
+                        initial_marker_value = j + 1;
+                    } else if (minusareafab.getSize() == minusareafab.SIZE_NORMAL) {
+
+                        arraylistsize2 = j;
+                        if (arraylistsize1 == arraylistsize2)
+                            minusareafab.setSize(SIZE_MINI);
+                        else
+                            Toast.makeText(MapsActivity.this, "Minus area is progress, delete items to cancel", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                }
+            }
+        });
+
+
         //Long click listener for placing marker on map
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
+
+                areacalcflag = false;
 
                 ++j;
 
@@ -116,9 +213,9 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                         .position(latLng)
                         .visible(true)
                         .draggable(true)
-                        .title(String.valueOf(distanceArray[j])+" m")
+                        .title(String.valueOf(distanceArray[j]) + " m")
                         .snippet("Marker " + (j + 1)));
-                if (j == 0)
+                if (j == initial_marker_value)
                     marker0 = marker;
 
                 marker.setDraggable(false);
@@ -127,15 +224,14 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 coodlist.add(marker.getPosition());
 
                 //check if no of points is greater than 1 to find distance
-                if (j > 0) {
-
+                if (j > initial_marker_value) {
 
                     //calculate distance between current point and previous point
                     Location.distanceBetween((coodlist.get(j - 1)).latitude, (coodlist.get(j - 1)).longitude, (coodlist.get(j)).latitude, (coodlist.get(j)).longitude, dis);
                     //keep distance in distance array
-                    distanceArray[j] = round(dis[0],2);
+                    distanceArray[j] = round(dis[0], 2);
 
-                    marker.setTitle(String.valueOf(distanceArray[j]));
+                    marker.setTitle(String.valueOf(distanceArray[j]) + " m");
 
                     //connect line between the two points
                     polylineOptions = new PolylineOptions().add(new LatLng((coodlist.get(j - 1)).latitude, (coodlist.get(j - 1)).longitude)).add(new
@@ -164,55 +260,71 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
             @Override
             public void onClick(View view) {
-                if (j > 1) {
-                    polylineOptions = new PolylineOptions().add(new LatLng((coodlist.get(j)).latitude, (coodlist.get(j)).longitude)).add(new LatLng((coodlist.get(0)).latitude, (coodlist.get(0)).longitude));
+                if (j > 1 && j - arraylistsize1 >= 2) {
+
+                    areacalcflag = true;
+
+
+                    polylineOptions = new PolylineOptions().add(new LatLng((coodlist.get(j)).latitude, (coodlist.get(j)).longitude)).add(new LatLng((coodlist.get(initial_marker_value)).latitude, (coodlist.get(initial_marker_value)).longitude));
                     polyline = mMap.addPolyline(polylineOptions.color(Color.BLUE).clickable(true));
 
-                    Location.distanceBetween((coodlist.get(0)).latitude, (coodlist.get(0)).longitude, (coodlist.get(j)).latitude, (coodlist.get(j)).longitude, dis);
+                    Location.distanceBetween((coodlist.get(initial_marker_value)).latitude, (coodlist.get(initial_marker_value)).longitude, (coodlist.get(j)).latitude, (coodlist.get(j)).longitude, dis);
 
-                    distanceArray[j] = round(dis[0],2);
+                    distanceArray[j] = round(dis[0], 2);
                     //Toast.makeText(MapsActivity.this,""+dis[0],Toast.LENGTH_SHORT).show();
 
-                    marker0.setTitle(String.valueOf(distanceArray[j]));
+                    marker0.setTitle(String.valueOf(distanceArray[j]) + " m");
 
                     //converting square meter to square foot and rounding it off to 2 decimal places
                     //converting factor = 10.7639
-                    computedArea = round(computeArea(coodlist)*10.7639,2);
+                    computedArea = round(computeArea(coodlist) * 10.7639, 2);
 
 
                     if (autoCompleteButton.getText().equals("Auto Complete")) {
-                        autoCompleteButton.setText(computedArea+" m^2");
+                        autoCompleteButton.setText(computedArea + " m^2");
                     } else {
                         autoCompleteButton.setText("Auto Complete");
                     }
                 } else {
                     Toast.makeText(MapsActivity.this, "Need atleast three points", Toast.LENGTH_LONG).show();
                 }
+
+                addareafab.setSize(SIZE_MINI);
+                minusareafab.setSize(SIZE_MINI);
             }
         });
 
 
+        //remove markers
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+
+
+                if (coodlist.indexOf(marker.getPosition()) < initial_marker_value && coodlist.size() <= initial_marker_value) {
+                    coodlist.remove(marker.getPosition());
+                    marker.remove();
+
+                    --j;
+
+                } else {
+                    Toast.makeText(MapsActivity.this, "Delete newly created segments before this " + coodlist.indexOf(marker.getPosition()) + coodlist.size() + "", Toast.LENGTH_SHORT).show();
+                }
+
                 if (!autoCompleteButton.getText().equals("Auto Complete")) {
                     autoCompleteButton.setText("Auto Complete");
                 }
-                coodlist.remove(marker.getPosition());
-                marker.remove();
-
-                --j;
             }
         });
 
         //move to solar activity for calculations
-        solarpanelButton = (Button)findViewById(R.id.bsolarpanel);
+        solarpanelButton = (Button) findViewById(R.id.bsolarpanel);
         solarpanelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                Intent intent = new Intent(MapsActivity.this,SolarActivity.class);
-                bundle.putDouble("computedarea",computedArea);
+                Intent intent = new Intent(MapsActivity.this, SolarActivity.class);
+                bundle.putDouble("computedarea", computedArea);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -256,6 +368,14 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     mMap.clear();
                     coodlist.clear();
                     j = -1;
+                    initial_marker_value = 0;
+
+                    arraylistsize1 = 0;
+                    arraylistsize2 = 2;
+
+
+                    addareafab.setSize(SIZE_MINI);
+                    minusareafab.setSize(SIZE_MINI);
 
                     if (!autoCompleteButton.getText().equals("Auto Complete")) {
                         autoCompleteButton.setText("Auto Complete");
@@ -288,47 +408,5 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
 
-    public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
-        private View view;
-
-        //to display distance from other markers
-        private String distance_no;
-
-        //to display snippet from original adpater
-        private String custom_snippet;
-
-
-        public CustomInfoWindowAdapter() {
-
-            view = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-
-
-            return null;
-        }
-
-
-        @Override
-        public View getInfoWindow(final Marker marker) {
-
-            distance_no = marker.getTitle();
-            custom_snippet = marker.getSnippet();
-
-            //set titles and snippet from original infowindow
-            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-            subtitle.setText(distance_no);
-
-
-            TextView snippet = (TextView) view.findViewById(R.id.snippet);
-            snippet.setText(custom_snippet);
-
-
-            return view;
-        }
-
-    }
 }
