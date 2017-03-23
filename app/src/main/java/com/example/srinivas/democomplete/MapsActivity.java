@@ -55,8 +55,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     private static int initial_marker_value = 0;
     private FloatingActionButton addareafab;
     private FloatingActionButton minusareafab;
-    private int arraylistsize1 = 0;
-    private int arraylistsize2 = 2;
+    private int arraylistsize1 = -1;
+    private int arraylistsize2 = -1;
     private boolean areacalcflag = false;
 
     @Override
@@ -260,7 +260,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
             @Override
             public void onClick(View view) {
-                if (j > 1 && j - arraylistsize1 >= 2) {
+                if (j > 1 && j - arraylistsize1 > 2) {
 
                     areacalcflag = true;
 
@@ -370,8 +370,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     j = -1;
                     initial_marker_value = 0;
 
-                    arraylistsize1 = 0;
-                    arraylistsize2 = 2;
+                    arraylistsize1 = -1;
+                    arraylistsize2 = -1;
 
 
                     addareafab.setSize(SIZE_MINI);
