@@ -47,17 +47,19 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     private Polyline polyline;
     private PolylineOptions polylineOptions;
     private ArrayList<LatLng> coodlist = new ArrayList<LatLng>();
-    private double computedArea;
+    private ArrayList<Double> computedArea = new ArrayList<Double>();
     private float[] dis = new float[1];
     private PlaceAutocompleteFragment autocompleteFragment;
     private static int current_initial_marker_value = 0;
-    //private int before = 0;
     private ArrayList<Integer> end_marker_value_array = new ArrayList<Integer>();
     private FloatingActionButton addareafab;
     private FloatingActionButton minusareafab;
     private int firstmarkerno = -1;
     private int lastmarkerno = -1;
     private boolean areacalcflag = false;
+    private double temp = 0;
+    private double temp1 = 0;
+    private int addorsubflag = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +123,9 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
 
-                if (areacalcflag = false)
+                areacalcflag = false;
+
+                if (j==-1)
                     Toast.makeText(MapsActivity.this, "First calculate area to add", Toast.LENGTH_SHORT).show();
 
                 else {
@@ -129,7 +133,6 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     if (!autoCompleteButton.getText().equals("Auto Complete")) {
                         autoCompleteButton.setText("Auto Complete");
                     }
-
 
                     if (minusareafab.getSize() == minusareafab.SIZE_NORMAL)
                         Toast.makeText(MapsActivity.this, "Minus Area is active now", Toast.LENGTH_SHORT).show();
@@ -164,6 +167,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
 
+                areacalcflag = false;
+
 
                 if (j == -1)
                     Toast.makeText(MapsActivity.this, "First calculate area to add", Toast.LENGTH_SHORT).show();
@@ -176,20 +181,25 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
                     if (addareafab.getSize() == addareafab.SIZE_NORMAL)
                         Toast.makeText(MapsActivity.this, "Add Area is active now", Toast.LENGTH_SHORT).show();
-                    else if (minusareafab.getSize() == minusareafab.SIZE_MINI) {
 
+                    else if (minusareafab.getSize() == minusareafab.SIZE_MINI) {
 
                         firstmarkerno = j;
 
                         minusareafab.setSize(SIZE_NORMAL);
 
+                        addorsubflag = -1;
+
                         current_initial_marker_value = j + 1;
+
                     } else if (minusareafab.getSize() == minusareafab.SIZE_NORMAL) {
 
                         lastmarkerno = j;
-                        if (firstmarkerno == lastmarkerno)
+
+                        if (firstmarkerno == lastmarkerno) {
                             minusareafab.setSize(SIZE_MINI);
-                        else
+                            addorsubflag = 1;
+                        } else
                             Toast.makeText(MapsActivity.this, "Minus area is progress, delete items to cancel", Toast.LENGTH_SHORT).show();
 
 
@@ -204,40 +214,47 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             @Override
             public void onMapLongClick(LatLng latLng) {
 
-                areacalcflag = false;
+                if(areacalcflag == true)
+                    Toast.makeText(MapsActivity.this, "Delete markers to recompute area or use add/sub buttons for additional computations", Toast.LENGTH_LONG).show();
+                else {
 
-                ++j;
+                    areacalcflag = false;
 
-                //intialize marker and its attributes
-                Marker marker = mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .visible(true)
-                        .draggable(true)
-                        .title(String.valueOf(distanceArray[j]) + " m")
-                        .snippet("Marker " + (j + 1)));
-                if (j == current_initial_marker_value)
-                    marker0 = marker;
 
-                marker.setDraggable(false);
+                    ++j;
 
-                //gets markerposition and stores in array of coords
-                coodlist.add(marker.getPosition());
+                    //intialize marker and its attributes
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .visible(true)
+                            .draggable(true)
+                            .title(String.valueOf(distanceArray[j]) + " m")
+                            .snippet("Marker " + (j + 1)));
+                    if (j == current_initial_marker_value)
+                        marker0 = marker;
 
-                //check if no of points is greater than 1 to find distance
-                if (j > current_initial_marker_value) {
+                    marker.setDraggable(false);
 
-                    //calculate distance between current point and previous point
-                    Location.distanceBetween((coodlist.get(j - 1)).latitude, (coodlist.get(j - 1)).longitude, (coodlist.get(j)).latitude, (coodlist.get(j)).longitude, dis);
-                    //keep distance in distance array
-                    distanceArray[j] = round(dis[0], 2);
+                    //gets markerposition and stores in array of coords
+                    coodlist.add(marker.getPosition());
 
-                    marker.setTitle(String.valueOf(distanceArray[j]) + " m");
+                    //check if no of points is greater than 1 to find distance
+                    if (j > current_initial_marker_value) {
 
-                    //connect line between the two points
-                    polylineOptions = new PolylineOptions().add(new LatLng((coodlist.get(j - 1)).latitude, (coodlist.get(j - 1)).longitude)).add(new
-                            LatLng((coodlist.get(j)).latitude, (coodlist.get(j)).longitude));
-                    polyline = mMap.addPolyline(polylineOptions.color(Color.BLUE).clickable(true));
+                        //calculate distance between current point and previous point
+                        Location.distanceBetween((coodlist.get(j - 1)).latitude, (coodlist.get(j - 1)).longitude, (coodlist.get(j)).latitude, (coodlist.get(j)).longitude, dis);
+                        //keep distance in distance array
+                        distanceArray[j] = round(dis[0], 2);
+
+                        marker.setTitle(String.valueOf(distanceArray[j]) + " m");
+
+                        //connect line between the two points
+                        polylineOptions = new PolylineOptions().add(new LatLng((coodlist.get(j - 1)).latitude, (coodlist.get(j - 1)).longitude)).add(new
+                                LatLng((coodlist.get(j)).latitude, (coodlist.get(j)).longitude));
+                        polyline = mMap.addPolyline(polylineOptions.color(Color.BLUE).clickable(true));
+                    }
                 }
+
 
             }
         });
@@ -248,7 +265,11 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             public void onPolylineClick(Polyline polyline) {
 
                 if (!autoCompleteButton.getText().equals("Auto Complete")) {
-                    autoCompleteButton.setText("Auto Complete");
+                    if (computedArea.size() > 1) {
+                        computedArea.remove(computedArea.size() - 1);
+                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " m^2");
+                    } else
+                        autoCompleteButton.setText("Auto Complete");
                 }
 
                 polyline.remove();
@@ -262,9 +283,15 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 if (j > 1 && j - firstmarkerno > 2) {
 
+
                     areacalcflag = true;
 
-                    end_marker_value_array.add(current_initial_marker_value);
+                    if (end_marker_value_array.size() >= 1) {
+
+                        if (end_marker_value_array.get(end_marker_value_array.size() - 1) == current_initial_marker_value)
+                            Toast.makeText(MapsActivity.this, "No changes made to the area", Toast.LENGTH_SHORT).show();
+                    } else
+                        end_marker_value_array.add(current_initial_marker_value);
 
 
                     polylineOptions = new PolylineOptions().add(new LatLng((coodlist.get(j)).latitude, (coodlist.get(j)).longitude)).add(new LatLng((coodlist.get(current_initial_marker_value)).latitude, (coodlist.get(current_initial_marker_value)).longitude));
@@ -276,16 +303,28 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     //Toast.makeText(MapsActivity.this,""+dis[0],Toast.LENGTH_SHORT).show();
 
                     marker0.setTitle(String.valueOf(distanceArray[j]) + " m");
+                    //Html.fromHtml("m<sup>2</sup>"
 
                     //converting square meter to square foot and rounding it off to 2 decimal places
                     //converting factor = 10.7639
-                    computedArea = round(computeArea(coodlist) * 10.7639, 2);
+                    temp = round(computeArea(coodlist) * 10.7639, 2);
+                    if (end_marker_value_array.size() == 1)
+                        computedArea.add(temp);
+                    else {
+                        for (int i = 0; i < computedArea.size(); i++) {
+                            temp1 = temp1 + computedArea.get(i) * addorsubflag;
+                        }
+
+                        temp1 = temp1 + temp;
+                        computedArea.add(temp1);
+                    }
 
 
                     if (autoCompleteButton.getText().equals("Auto Complete")) {
-                        autoCompleteButton.setText(computedArea + " m^2");
-                    } else {
-                        autoCompleteButton.setText("Auto Complete");
+                        if (computedArea.size() > 1)
+                            autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " m^2");
+                        else
+                            autoCompleteButton.setText(computedArea.get(0) + " m^2");
                     }
                 } else {
                     Toast.makeText(MapsActivity.this, "Need atleast three points", Toast.LENGTH_LONG).show();
@@ -303,10 +342,10 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             public void onInfoWindowClick(Marker marker) {
 
                 if (current_initial_marker_value > j) {
-                    if (end_marker_value_array.size() > 1) ;
-                     end_marker_value_array.remove(end_marker_value_array.size() - 1);
+                    if (end_marker_value_array.size() > 1)
+                        end_marker_value_array.remove(end_marker_value_array.size() - 1);
                     current_initial_marker_value = end_marker_value_array.get(end_marker_value_array.size() - 1);
-                    firstmarkerno = current_initial_marker_value - 1 ;
+                    firstmarkerno = current_initial_marker_value - 1;
                 }
 
 
@@ -321,7 +360,11 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 }
 
                 if (!autoCompleteButton.getText().equals("Auto Complete")) {
-                    autoCompleteButton.setText("Auto Complete");
+                    if (computedArea.size() > 1) {
+                        computedArea.remove(computedArea.size() - 1);
+                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " m^2");
+                    } else
+                        autoCompleteButton.setText("Auto Complete");
                 }
             }
         });
@@ -333,7 +376,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 Intent intent = new Intent(MapsActivity.this, SolarActivity.class);
-                bundle.putDouble("computedarea", computedArea);
+                bundle.putDouble("computedarea", computedArea.get(computedArea.size() - 1));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -382,6 +425,11 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     firstmarkerno = -1;
                     lastmarkerno = -1;
 
+                    end_marker_value_array.clear();
+
+
+                    computedArea.clear();
+
 
                     addareafab.setSize(SIZE_MINI);
                     minusareafab.setSize(SIZE_MINI);
@@ -415,6 +463,4 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
-
-
 }
