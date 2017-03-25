@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -267,7 +268,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 if (!autoCompleteButton.getText().equals("Auto Complete")) {
                     if (computedArea.size() > 1) {
                         computedArea.remove(computedArea.size() - 1);
-                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " m^2");
+                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " "+Html.fromHtml("m<sup>2</sup>"));
                     } else
                         autoCompleteButton.setText("Auto Complete");
                 }
@@ -322,9 +323,9 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
                     if (autoCompleteButton.getText().equals("Auto Complete")) {
                         if (computedArea.size() > 1)
-                            autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " m^2");
+                            autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " "+Html.fromHtml("m<sup>2</sup>"));
                         else
-                            autoCompleteButton.setText(computedArea.get(0) + " m^2");
+                            autoCompleteButton.setText(computedArea.get(0) + " "+Html.fromHtml("m<sup>2</sup>"));
                     }
                 } else {
                     Toast.makeText(MapsActivity.this, "Need atleast three points", Toast.LENGTH_LONG).show();
@@ -362,7 +363,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 if (!autoCompleteButton.getText().equals("Auto Complete")) {
                     if (computedArea.size() > 1) {
                         computedArea.remove(computedArea.size() - 1);
-                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " m^2");
+                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " "+Html.fromHtml("m<sup>2</sup>"));
                     } else
                         autoCompleteButton.setText("Auto Complete");
                 }
@@ -429,6 +430,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
 
                     computedArea.clear();
+
+                    areacalcflag = false;
 
 
                     addareafab.setSize(SIZE_MINI);
