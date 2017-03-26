@@ -10,7 +10,10 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,25 +44,27 @@
                 android:id="@+id/fabadd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="43dp"
                 android:background="#ffffff"
                 android:clickable="true"
                 app:fabSize="mini"
-                app:srcCompat="@drawable/ic_action_add" />
+                app:srcCompat="@drawable/ic_action_add"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="57dp" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabminus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="110dp"
+                android:layout_marginBottom="118dp"
                 android:background="#ffffff"
                 android:clickable="true"
                 app:fabSize="mini"
-                app:srcCompat="@drawable/ic_action_minus" />
+                app:srcCompat="@drawable/ic_action_minus"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 
@@ -84,7 +89,8 @@
                 android:background="#303F9F"
                 android:text="Auto Complete"
                 android:textColor="#ffffff"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:textAllCaps="false"/>
 
             <View
                 android:layout_width="0.5dp"
@@ -97,8 +103,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#303F9F"
-                android:text="Add solar panels"
-                android:textColor="#ffffff" />
+                android:text="Add Solar Panels"
+                android:textColor="#ffffff"
+                android:textAllCaps="false"/>
         </LinearLayout>
 
 
