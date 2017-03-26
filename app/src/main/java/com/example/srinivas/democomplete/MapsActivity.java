@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.SuperscriptSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,6 +66,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     private double temp1 = 0;
     private int addorsubflag = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +79,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         //Obtain autocomplete fragment for place suggestion in google maps 
         autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
 
     }
 
@@ -179,7 +185,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
 
                 if (j == -1)
-                    Toast.makeText(MapsActivity.this, "First calculate area to add", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapsActivity.this, "First calculate area to subtract", Toast.LENGTH_SHORT).show();
 
                 else {
 
@@ -283,7 +289,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     //if theres more than one computed area, remove the last one, and show the previous computed area
                     if (computedArea.size() > 1) {
                         computedArea.remove(computedArea.size() - 1);
-                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " " + Html.fromHtml("m<sup>2</sup>"));
+                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " sq ft");
+                        //autoCompleteButton.append(cs);
                     } else
                         autoCompleteButton.setText("Auto Complete");
                 }
@@ -323,7 +330,6 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     //Toast.makeText(MapsActivity.this,""+dis[0],Toast.LENGTH_SHORT).show();
 
                     marker0.setTitle(String.valueOf(distanceArray[j]) + " m");
-                    //Html.fromHtml("m<sup>2</sup>"
 
                     //converting square meter to square foot and rounding it off to 2 decimal places
                     //converting factor = 10.7639
@@ -343,10 +349,14 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
 
                     if (autoCompleteButton.getText().equals("Auto Complete")) {
-                        if (computedArea.size() > 1)
-                            autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " " + Html.fromHtml("m<sup>2</sup>"));
-                        else
-                            autoCompleteButton.setText(computedArea.get(0) + " " + Html.fromHtml("m<sup>2</sup>"));
+                        if (computedArea.size() > 1) {
+                            autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " sq ft");
+                           // autoCompleteButton.append(cs);
+                        }
+                        else {
+                            autoCompleteButton.setText(computedArea.get(0) + " sq ft");
+                            //autoCompleteButton.append(cs);
+                        }
                     }
                 } else {
                     Toast.makeText(MapsActivity.this, "Need atleast three points", Toast.LENGTH_LONG).show();
@@ -389,7 +399,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 if (!autoCompleteButton.getText().equals("Auto Complete")) {
                     if (computedArea.size() > 1) {
                         computedArea.remove(computedArea.size() - 1);
-                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " " + Html.fromHtml("m<sup>2</sup>"));
+                        autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " sq ft");
+                        //autoCompleteButton.append(cs);
                     } else
                         autoCompleteButton.setText("Auto Complete");
                 }
@@ -499,4 +510,6 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+
+
 }
