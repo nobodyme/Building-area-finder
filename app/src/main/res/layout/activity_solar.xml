@@ -9,7 +9,23 @@
         android:id="@+id/getareatextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
         android:textSize="18sp"
-        android:textColor="#000000"/>
+        android:gravity="center"
+        android:textColor="@color/backgroundMarker"
+        android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/defaulttextview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryLight"
+        android:padding="8dp"
+        android:text="@string/defaultsolar"
+        android:textColor="@color/markerNosubtitle"
+        android:textStyle="italic" />
 
     </LinearLayout>
