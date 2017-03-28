@@ -8,6 +8,5 @@
     <string name="satellitemenu">Satellite map</string>
     <string name="terrainmenu">Terrain map</string>
     <string name="removemenu">Remove all</string>
-    <string name="settings">Settings</string>
-    <string name="defaultsolar">By default a standard panel with 254 sq ft is choosen to change go to settings option under menu for reference try this <a href="http://news.energysage.com/how-many-solar-panels-do-i-need/">page</a></string>
+
 </resources>

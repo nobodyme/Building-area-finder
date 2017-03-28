@@ -3,14 +3,10 @@ package com.example.srinivas.democomplete;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.SuperscriptSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +40,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private Marker marker0;
     private Button autoCompleteButton;
-    private Button solarpanelButton;
+    private Button solarsitecalcButton;
 
     //j keeps count of the number of the markers
     static int j = -1;
@@ -408,22 +404,19 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         });
 
         //move to solar activity for calculations
-        solarpanelButton = (Button) findViewById(R.id.bsolarpanel);
-        solarpanelButton.setOnClickListener(new View.OnClickListener() {
+        solarsitecalcButton = (Button) findViewById(R.id.bsolarpanel);
+        solarsitecalcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                Intent intent = new Intent(MapsActivity.this, SolarActivity.class);
+                Uri uri = Uri.parse("http://indiagoessolar.com/solar-calculator/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 if (computedArea.size() > 1) {
-                    bundle.putDouble("computedarea", computedArea.get(computedArea.size() - 1));
-                    intent.putExtras(bundle);
+
                     startActivity(intent);
                 } else if (computedArea.size() == 1) {
-                    bundle.putDouble("computedarea", computedArea.get(0));
-                    intent.putExtras(bundle);
                     startActivity(intent);
                 } else
-                    Toast.makeText(MapsActivity.this, "Calculate area to add solar panels", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapsActivity.this, "Calculate area to find solar panel details", Toast.LENGTH_SHORT).show();
             }
         });
 

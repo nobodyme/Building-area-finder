@@ -91,7 +91,6 @@
                 android:textColor="#ffffff"
                 android:visibility="visible"
                 android:textAllCaps="false"/>
-
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
