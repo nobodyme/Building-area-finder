@@ -145,19 +145,32 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                         //if button is inactive (and minus is also inactive as previously checked) make the current one active
                     else if (addareafab.getSize() == addareafab.SIZE_MINI) {
 
-                        //stores marker value as soon as add/sub button is pressed
-                        firstmarkerno = j;
 
-                        addareafab.setSize(SIZE_NORMAL);
+                        if(computedArea.size() == 0)
+                            Toast.makeText(MapsActivity.this, "First calculate area to subtract", Toast.LENGTH_SHORT).show();
+                        else {
 
-                        //stores first value of marker of a new group
-                        current_initial_marker_value = j + 1;
+
+                            //stores marker value as soon as add/sub button is pressed
+                            firstmarkerno = j;
+
+                            addareafab.setSize(SIZE_NORMAL);
+
+                            //stores first value of marker of a new group
+                            current_initial_marker_value = j + 1;
+                        }
                     } else if (addareafab.getSize() == addareafab.SIZE_NORMAL) {
 
                         //just a variable to check is no marker is placed between making the button active and inactive
                         lastmarkerno = j;
                         if (firstmarkerno == lastmarkerno)
+                        {
+                            current_initial_marker_value = end_marker_value_array.get(end_marker_value_array.size() - 1);
+                            firstmarkerno = current_initial_marker_value - 1;
                             addareafab.setSize(SIZE_MINI);
+                            autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " sq ft");
+                        }
+
                         else
                             Toast.makeText(MapsActivity.this, "Add area is progress, delete items to cancel", Toast.LENGTH_SHORT).show();
 
@@ -193,19 +206,24 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     if (addareafab.getSize() == addareafab.SIZE_NORMAL)
                         Toast.makeText(MapsActivity.this, "Add Area is active now", Toast.LENGTH_SHORT).show();
 
-                    //if button is inactive and add is also inactive as previously checked make the current one active
+                        //if button is inactive and add is also inactive as previously checked make the current one active
                     else if (minusareafab.getSize() == minusareafab.SIZE_MINI) {
 
-                        //stores marker value as soon as add/sub button is pressed
-                        firstmarkerno = j;
+                        if(computedArea.size() == 0)
+                            Toast.makeText(MapsActivity.this, "First calculate area to subtract", Toast.LENGTH_SHORT).show();
+                        else {
 
-                        minusareafab.setSize(SIZE_NORMAL);
+                            //stores marker value as soon as add/sub button is pressed
+                            firstmarkerno = j;
 
-                        //make flag -1 to indicate current option is minus and hence area stored has to be subtracted
-                        addorsubflag = -1;
+                            minusareafab.setSize(SIZE_NORMAL);
 
-                        //stores first value of marker of a new group
-                        current_initial_marker_value = j + 1;
+                            //make flag -1 to indicate current option is minus and hence area stored has to be subtracted
+                            addorsubflag = -1;
+
+                            //stores first value of marker of a new group
+                            current_initial_marker_value = j + 1;
+                        }
 
                     } else if (minusareafab.getSize() == minusareafab.SIZE_NORMAL) {
 
@@ -214,6 +232,9 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
                         if (firstmarkerno == lastmarkerno) {
                             minusareafab.setSize(SIZE_MINI);
+                            current_initial_marker_value = end_marker_value_array.get(end_marker_value_array.size() - 1);
+                            firstmarkerno = current_initial_marker_value - 1;
+                            autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " sq ft");
                             addorsubflag = 1;
                         } else
                             Toast.makeText(MapsActivity.this, "Minus area is progress, delete items to cancel", Toast.LENGTH_SHORT).show();
@@ -333,7 +354,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     //if only one computed area exists, show  it
                     if (end_marker_value_array.size() == 1)
                         computedArea.add(temp);
-                    //add all stored areas and show it by adding it with the current one
+                        //add all stored areas and show it by adding it with the current one
                     else {
                         for (int i = 0; i < computedArea.size(); i++) {
                             temp1 = temp1 + computedArea.get(i) * addorsubflag;
@@ -347,9 +368,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     if (autoCompleteButton.getText().equals("Auto Complete")) {
                         if (computedArea.size() > 1) {
                             autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " sq ft");
-                           // autoCompleteButton.append(cs);
-                        }
-                        else {
+                            // autoCompleteButton.append(cs);
+                        } else {
                             autoCompleteButton.setText(computedArea.get(0) + " sq ft");
                             //autoCompleteButton.append(cs);
                         }
@@ -385,7 +405,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     coodlist.remove(marker.getPosition());
                     //remove marker
                     marker.remove();
-                   //decrement total marker number
+                    //decrement total marker number
                     --j;
 
                 } else {
