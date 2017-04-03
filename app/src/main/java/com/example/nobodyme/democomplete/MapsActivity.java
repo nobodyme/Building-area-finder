@@ -146,7 +146,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                     else if (addareafab.getSize() == addareafab.SIZE_MINI) {
 
 
-                        if(computedArea.size() == 0)
+                        if (computedArea.size() == 0)
                             Toast.makeText(MapsActivity.this, "First calculate area to subtract", Toast.LENGTH_SHORT).show();
                         else {
 
@@ -163,15 +163,12 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
                         //just a variable to check is no marker is placed between making the button active and inactive
                         lastmarkerno = j;
-                        if (firstmarkerno == lastmarkerno)
-                        {
+                        if (firstmarkerno == lastmarkerno) {
                             current_initial_marker_value = end_marker_value_array.get(end_marker_value_array.size() - 1);
                             firstmarkerno = current_initial_marker_value - 1;
                             addareafab.setSize(SIZE_MINI);
                             autoCompleteButton.setText(computedArea.get(computedArea.size() - 1) + " sq ft");
-                        }
-
-                        else
+                        } else
                             Toast.makeText(MapsActivity.this, "Add area is progress, delete items to cancel", Toast.LENGTH_SHORT).show();
 
 
@@ -209,7 +206,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                         //if button is inactive and add is also inactive as previously checked make the current one active
                     else if (minusareafab.getSize() == minusareafab.SIZE_MINI) {
 
-                        if(computedArea.size() == 0)
+                        if (computedArea.size() == 0)
                             Toast.makeText(MapsActivity.this, "First calculate area to subtract", Toast.LENGTH_SHORT).show();
                         else {
 
@@ -430,12 +427,9 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Uri uri = Uri.parse("http://indiagoessolar.com/solar-calculator/");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                if (computedArea.size() > 1) {
-
+                if (computedArea.size() >= 1)
                     startActivity(intent);
-                } else if (computedArea.size() == 1) {
-                    startActivity(intent);
-                } else
+                else
                     Toast.makeText(MapsActivity.this, "Calculate area to find solar panel details", Toast.LENGTH_SHORT).show();
             }
         });
