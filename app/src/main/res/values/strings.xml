@@ -8,5 +8,7 @@
     <string name="satellitemenu">Satellite map</string>
     <string name="terrainmenu">Terrain map</string>
     <string name="removemenu">Remove all</string>
+    <string name="settings">Settings</string>
+    <string name="defaultsolar">For more such calculations using the obtained area visit <a href="http://indiagoessolar.com/solar-calculator/">this site here</a></string>
 
 </resources>

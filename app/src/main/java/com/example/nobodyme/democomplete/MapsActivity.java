@@ -425,12 +425,25 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         solarsitecalcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("http://indiagoessolar.com/solar-calculator/");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                if (computedArea.size() >= 1)
+//                Uri uri = Uri.parse("http://indiagoessolar.com/solar-calculator/");
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                if (computedArea.size() >= 1)
+//                    startActivity(intent);
+//                else
+//                    Toast.makeText(MapsActivity.this, "Calculate area to find solar panel details", Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(MapsActivity.this, SolarActivity.class);
+                if (computedArea.size() > 1) {
+                    bundle.putDouble("computedarea", computedArea.get(computedArea.size() - 1));
+                    intent.putExtras(bundle);
                     startActivity(intent);
-                else
-                    Toast.makeText(MapsActivity.this, "Calculate area to find solar panel details", Toast.LENGTH_SHORT).show();
+                } else if (computedArea.size() == 1) {
+                    bundle.putDouble("computedarea", computedArea.get(0));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else
+                    Toast.makeText(MapsActivity.this, "Calculate area to add solar panels", Toast.LENGTH_SHORT).show();
             }
         });
 
