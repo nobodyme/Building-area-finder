@@ -3,7 +3,7 @@ This is an Android app that helps an user to select buildings or other land area
 
 # Installing
 
-You might wanna edit this geo-key line in the [manifest file](https://github.com/nobodyme/Buildingareafinder/blob/master/app/src/main/AndroidManifest.xml) with your own key which can be found [here](https://developers.google.com/maps/documentation/android-api/signup) if the map is not visible or search isn't working
+You might wanna edit the following geo-key line in the [manifest file](https://github.com/nobodyme/Buildingareafinder/blob/master/app/src/main/AndroidManifest.xml) with your own key which can be found [here](https://developers.google.com/maps/documentation/android-api/signup) if the map is not visible or search isn't working and then run it on the device.
 
 `android:value="@string/google_maps_key" />`
 
